@@ -1,5 +1,7 @@
 package com.privateperson.distributedlock.coupon.service;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class CouponService {
 		couponRepository.save(coupon);
 	}
 
+	//@Async
 	@Transactional
 	@DistributedLock(key = "#couponId")
 	public void issueCoupon(Long userId, Long couponId) {
@@ -54,6 +57,7 @@ public class CouponService {
 			.build();
 
 		couponHistoryRepository.save(couponHistory);
+
 
 	}
 }

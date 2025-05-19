@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.DefaultParameterNameDiscoverer;
+import org.springframework.core.annotation.Order;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -24,9 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Component
 @Slf4j
+@Order(0)
 @RequiredArgsConstructor
 public class DistributedLockAop {
-
 
 	private final LettuceService lettuceService;
 	private final ExpressionParser parser = new SpelExpressionParser();
@@ -57,15 +58,31 @@ public class DistributedLockAop {
 
 		String token = null;
 
+		log.info("{}",key);
+
+
+		/*
+		while(true) {
+			Optional<String> maybe = lettuceService.tryLock(key);
+			if (maybe.isPresent()) {
+				token = maybe.get();
+				break;
+			}
+			//log.warn("시도횟수 : {}", attempt);
+			Thread.sleep(retryDelayMs);
+		}
+			*/
+
 		for (int attempt = 0; attempt < retries; attempt++) {
 			Optional<String> maybe = lettuceService.tryLock(key);
 			if (maybe.isPresent()) {
 				token = maybe.get();
 				break;
 			}
+			log.warn("시도횟수 : {}", attempt);
+
 			Thread.sleep(retryDelayMs);
 		}
-
 
 		if (token == null) {
 			throw new RuntimeException(

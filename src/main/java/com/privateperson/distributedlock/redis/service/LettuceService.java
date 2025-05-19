@@ -27,7 +27,7 @@ public class LettuceService {
 
 		String token = UUID.randomUUID().toString();
 
-		Boolean ok = redisTemplate.opsForValue().setIfAbsent(key, token, Duration.ofSeconds(15));
+		Boolean ok = redisTemplate.opsForValue().setIfAbsent(key, token, Duration.ofSeconds(300));
 
 		return Boolean.TRUE.equals(ok) ? Optional.of(token) : Optional.empty();
 	}

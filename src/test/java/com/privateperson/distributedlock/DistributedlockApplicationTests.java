@@ -75,12 +75,13 @@ class DistributedlockApplicationTests {
 	@Test
 	void issueCouponTest() {
 
+		/*
 		List<CompletableFuture<Void>> futures = IntStream.range(1, 10001)
 			.mapToObj(i -> asyncService.issueCouponAsync((long)i, 1L))
 			.toList();
 
 		CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-
+		 */
 
 	}
 

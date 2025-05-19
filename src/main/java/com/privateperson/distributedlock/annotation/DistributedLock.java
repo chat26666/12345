@@ -11,7 +11,7 @@ public @interface DistributedLock {
 
 	String key();
 
-	int retry() default 50;
+	int retry() default 20;
 
 	long retryDelay() default 10000;
 
