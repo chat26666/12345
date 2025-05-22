@@ -60,19 +60,6 @@ public class DistributedLockAop {
 
 		log.info("{}",key);
 
-
-		/*
-		while(true) {
-			Optional<String> maybe = lettuceService.tryLock(key);
-			if (maybe.isPresent()) {
-				token = maybe.get();
-				break;
-			}
-			//log.warn("시도횟수 : {}", attempt);
-			Thread.sleep(retryDelayMs);
-		}
-			*/
-
 		for (int attempt = 0; attempt < retries; attempt++) {
 			Optional<String> maybe = lettuceService.tryLock(key);
 			if (maybe.isPresent()) {
