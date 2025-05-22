@@ -66,7 +66,7 @@ public class DistributedLockAop {
 				token = maybe.get();
 				break;
 			}
-			log.warn("시도횟수11 : {}", attempt);
+			log.warn("시도횟수 : {}", attempt);
 
 			Thread.sleep(retryDelayMs);
 		}
